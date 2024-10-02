@@ -24,7 +24,9 @@
 
     function handleClick(e: CustomEvent) {
         const { detail } = e;
+        console.log('node id', detail.node.id)
         console.log('Node clicked:', detail);
+        
     }
 
     function onAddNode() {
@@ -35,10 +37,6 @@
             label: `Node ${nodes.length + 1}`,
             position: { x: Math.random() * 400, y: Math.random() * 400 }
         }];
-    }
-
-    function getRandomColor() {
-        return '#' + Math.floor(Math.random()*16777215).toString(16);
     }
 
     let colorTweens = new Map();
@@ -92,7 +90,7 @@
 
 
 
-<Svelvet id="my-canvas" width={500} height={500} TD minimap>
+<Svelvet id="my-canvas" width={1400} height={900} TD minimap>
     {#each nodes as node (node.id)}
         <Node 
             id={node.id}
@@ -100,7 +98,9 @@
             position={node.position}
             on:nodeClicked={handleClick}
             connections={node.connections}
-            bgColor={$color}
+            bgColor={$color} 
+            editable={true}
+            let:selected
         >
             <!-- <div slot="content" let:grabHandle let:selected>
                 <div 
