@@ -22,6 +22,7 @@
 	"dependencies": {
 		"@types/d3-interpolate": "^3.0.4",
 		"d3-interpolate": "^3.0.1",
+		"fp-ts": "^2.16.9",
 		"generic-handler": "^0.3.5",
 		"ppropogator": "^0.0.3",
 		"svelvet": "^10.0.2",

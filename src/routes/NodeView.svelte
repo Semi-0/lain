@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { type Store } from "../ReactorWrapper"
     // TODO: reactive update value ( how to properly define value?)
     import { tweened } from "svelte/motion";
     import { Node, type CSSColorString } from "svelvet"
@@ -6,11 +7,15 @@
     import { type NodeViewModel } from "../NodeViewModel"
     export let viewModel : NodeViewModel
     export let onNodeClicked : (node: NodeViewModel) => void
+ 
+    
     // @ts-ignore
     let bgColor: Tweened<CSSColorString> = tweened("rgb(255, 62, 0)", {
         duration: 300,
         interpolate: interpolateLab
     });
+ 
+    $: label = viewModel.label
 
     function handleClick(e: CustomEvent) {
         const { detail } = e; 
@@ -23,7 +28,7 @@
 
 <Node 
     id={viewModel.id}
-    label={viewModel.label}
+    label={$label}
     position={viewModel.position}
     connections={viewModel.connections}
     bgColor={$bgColor}
