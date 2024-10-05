@@ -8,9 +8,8 @@
 
 
     const cells = cells_to_store(observe_cell_array)
-    $: healthy_cells = $cells.filter((e) => e instanceof Cell)
    
-    $: len = healthy_cells !== undefined ? healthy_cells.length : "undefined"
+    $: len = $cells !== undefined ? $cells.length : "undefined"
 
 
 
@@ -24,7 +23,7 @@
 
 <Svelvet id="propagator-network" width={300} height={300} TD minimap>
 
-    {#each healthy_cells as cell (cell_id(cell))}
+    {#each $cells as cell (cell_id(cell))}
         <CellComponent {cell} />
     {/each}
 
