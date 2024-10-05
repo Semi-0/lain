@@ -8,8 +8,8 @@
 - Map nodes -->
 
 <script>
-    import Playground from './Playground.svelte';
-
+    import Playground from './playground.svelte';
+    import Network from './network.svelte';
 </script>
 
-<Playground />
+<Network />

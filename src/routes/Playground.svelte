@@ -109,16 +109,6 @@
             editable={true}
             let:selected
         >
-            <!-- <div slot="content" let:grabHandle let:selected>
-                <div 
-                    use:grabHandle 
-                    class:selected 
-                    style="background-color: rgb({$colorSpring.r}, {$colorSpring.g}, {$colorSpring.b});"
-                    transition:fade
-                >
-                    <span>{node.label}</span>
-                </div>
-            </div> -->
         </Node>
     {/each}
 </Svelvet>
