@@ -1,12 +1,12 @@
 
 import { construct_simple_generic_procedure, define_generic_procedure_handler } from "generic-handler/GenericProcedure"
 import { match_args, register_predicate } from "generic-handler/Predicates"
-import { observe_cell_array, PublicStateCommand, type PublicStateMessage } from "ppropogator/PublicState"
-import { type BidirectionalReactor, type Reactor, type StatefulReactor } from "ppropogator/Reactor"
-import { set_global_state as set_propagator_system_state } from "ppropogator/PublicState"
-import { Cell } from "ppropogator/Cell/Cell"
-import type { Propagator } from "ppropogator/Propagator"
-import type { ReadOnlyReactor } from "ppropogator/Reactor"
+import { observe_cell_array, type PublicStateCommand, type PublicStateMessage } from "ppropogator/Shared/PublicState"
+import { type StandardReactor,  type Reactor, type StatefulReactor } from "ppropogator/Shared/Reactivity/Reactor"
+import { set_global_state as set_propagator_system_state } from "ppropogator/Shared/PublicState"
+import type { Cell } from "ppropogator/Cell/Cell"
+import type { Propagator } from "ppropogator/Propagator/Propagator"
+import type { ReadOnlyReactor } from "ppropogator/Shared/Reactivity/Reactor"
 
 export interface Store<T> {
     subscribe: (subscription: (value: any) => void) => (() => void), 
@@ -14,7 +14,7 @@ export interface Store<T> {
 }
 
 
-export function reactor_to_store<T>(reactor: BidirectionalReactor<T>): Store<T> {
+export function reactor_to_store<T>(reactor: StandardReactor<T>): Store<T> {
     return {
         subscribe: (subscription: (value: T) => void) => {
             reactor.subscribe(subscription)

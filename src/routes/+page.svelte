@@ -8,8 +8,14 @@
 - Map nodes -->
 
 <script>
-    import Playground from './playground.svelte';
     import Network from './network.svelte';
+    import { Canvas } from "@threlte/core"
+    import Scene from "./visualization/scene.svelte"
 </script>
 
-<Network />
+<!-- <Network /> -->
+
+
+<Canvas>
+    <Scene />
+</Canvas>

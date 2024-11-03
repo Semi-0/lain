@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Propagator } from "ppropogator/Propagator"
+    import { type Propagator } from "ppropogator/Propagator/Propagator"
     import { to_node_view_model } from "../helper/nodeViewModel"
     import NodeView from "./node.svelte";
     export let propagator: Propagator

@@ -1,15 +1,33 @@
-import { Cell } from "ppropogator/Cell/Cell"
+import { construct_cell, type Cell } from "ppropogator/Cell/Cell"
 
-import { c_multiply } from "ppropogator/BuiltInProps"
-import { tell } from "ppropogator/ui"
-
+import { c_multiply, p_add, p_multiply } from "ppropogator/Propagator/BuiltInProps"
+import { enum_num_set, tell } from "ppropogator/Helper/UI"
+import { p_amb } from "ppropogator/Propagator/Search"
+import { set_global_state } from "ppropogator/Shared/PublicState"
+import { PublicStateCommand } from "ppropogator/Shared/PublicState"
+import { merge_value_sets } from "ppropogator/DataTypes/ValueSet"
 
 export function operation(){
-    const x = new Cell("x")
-    const y = new Cell("y")
-    const z = new Cell("z")
+    set_global_state(PublicStateCommand.SET_CELL_MERGE, merge_value_sets)   
+    const possibilities = enum_num_set(10, 20)
 
-    c_multiply(x, y, z)
+    const x = construct_cell("x")
+    const y = construct_cell("y")
+    const z = construct_cell("z")
+
+    p_amb(x, possibilities)
+    p_amb(y, possibilities) 
+    p_amb(z, possibilities) 
+    
+    const x2 = construct_cell("x2")
+    const y2 = construct_cell("y2")
+    const z2 = construct_cell("z2")
+
+    p_multiply(x, x, x2)
+    p_multiply(y, y, y2)
+    p_multiply(z, z, z2) 
+    
+    p_add(x2, y2, z2) 
 
     
 }

@@ -8,7 +8,7 @@
 - Map nodes -->
 
 
-<script lang="ts">
+<!-- <script lang="ts">
     import { Node, Svelvet } from 'svelvet';
     import { tweened } from 'svelte/motion';
     import { cubicOut } from 'svelte/easing';
@@ -135,4 +135,4 @@ Accumulator: {accumulator}
     </button>
 {/each}
 
-<h1 style="color: {$color}">{$color}</h1>
+<h1 style="color: {$color}">{$color}</h1> -->

@@ -1,16 +1,17 @@
-import { Cell } from "ppropogator/Cell/Cell"
+import { type Cell } from "ppropogator/Cell/Cell"
 import { v4 as uuidv4 } from "uuid"
-import { Propagator } from "ppropogator/Propagator"
+import { type Propagator } from "ppropogator/Propagator/Propagator"
 import { construct_simple_generic_procedure, define_generic_procedure_handler } from "generic-handler/GenericProcedure";
 import { match_args, register_predicate } from "generic-handler/Predicates";
 import {  type Store } from "./wrappers";
 import { pipe } from "fp-ts/function";
-import { map } from "ppropogator/Reactor";
+import { map } from "ppropogator/Shared/Reactivity/Reactor";
 import { get_base_value } from "ppropogator/Cell/CellValue";
 import { to_string } from "generic-handler/built_in_generics/generic_conversation";
 import { reactor_to_store } from "./wrappers";
 import { readable, readonly } from "svelte/store";
-
+import { is_cell } from "ppropogator/Cell/Cell"; 
+import { is_propagator } from "ppropogator/Propagator/Propagator";
 // TODO: use particle spring to auto calculate position
 export interface NodeViewModel {
     id: string;
@@ -40,7 +41,6 @@ export const to_node_view_model = construct_simple_generic_procedure(
     }
 )
 
-const is_cell = register_predicate("is_cell", (x: any) => x instanceof Cell)
 
 define_generic_procedure_handler(to_node_view_model, 
     match_args(is_cell),
@@ -56,7 +56,6 @@ define_generic_procedure_handler(to_node_view_model,
     }
 )
 
-const is_propagator = register_predicate("is_propagator", (x: any) => x instanceof Propagator)
 
 define_generic_procedure_handler(to_node_view_model, 
     match_args(is_propagator),
