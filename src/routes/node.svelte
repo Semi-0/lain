@@ -4,7 +4,7 @@
     import { tweened } from "svelte/motion";
     import { Node, type CSSColorString } from "svelvet"
     import { interpolateLab } from "d3-interpolate"
-    import { type NodeViewModel } from "../helper/nodeViewModel"
+    import { type NodeViewModel } from "../helper/node_view_model"
     export let viewModel : NodeViewModel
     export let onNodeClicked : (node: NodeViewModel) => void
  

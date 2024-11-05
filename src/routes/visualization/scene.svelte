@@ -1,6 +1,6 @@
 <script>
   import { T } from '@threlte/core'
-  import { interactivity } from '@threlte/extras'
+  import { interactivity, Text, Billboard, Suspense, Text3DGeometry } from '@threlte/extras'
   import { spring } from 'svelte/motion'
 
   interactivity()
@@ -33,7 +33,13 @@
 />
 
 
-<T.Mesh position.y={1}
+<T.Mesh>
+  <Text3DGeometry text={'Hello World'} />
+  <T.MeshStandardMaterial />
+</T.Mesh>
+
+
+<!-- <T.Mesh position.y={1}
   scale={$scale}
   onpointerenter={() => scale.set(1.5)}
   onpointerleave={() => scale.set(1)}
@@ -41,4 +47,4 @@
   <T.BoxGeometry args={[1, 2, 1]} />
   <T.MeshBasicMaterial color="hotpink" />
 </T.Mesh>
-  
+   -->

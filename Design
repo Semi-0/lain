@@ -1,0 +1,38 @@
+PRIMITIVES:
+1. NODE
+id: str
+name: str 
+value: $any 
+shape: SHAPE
+display: (DISPLAY_OPTION) => modifier 
+
+[DISPLAY OPTION:
+  visible: $bool 
+  display_name: $bool
+  display_update: $bool
+  ...]
+
+private: physical_id: str  
+private: reactor_id: str
+private: position: vector
+
+
+2. CONNECTION
+A: str // node_id 
+B: str // node_id
+
+
+3. LAYER
+nodes: NODE[]
+connection: CONNECTION[]
+
+private: position: str
+
+
+COMBINATORS:
+connect(node, node): connection
+disconnect(node, node)
+construct_from(Layer) => () => NODE || CONNECTION
+update(node, value)
+
+// contains different abstraction level of node and connections
