@@ -1,5 +1,5 @@
 
-import type { SimpleNode, NodeViewModel, SimpleLink, LinkViewModel } from "./types";
+import type { Node, NodeViewModel, Link, LinkViewModel } from "./types";
 import { default_link_view_model, default_node_view } from "./types";
 import * as d3 from 'd3';
 
@@ -14,7 +14,7 @@ export function create_SVG(d3: any, width: number, height: number){
 
 
 
-export function insert_nodes(svg: any, nodes: SimpleNode[], view: NodeViewModel){
+export function insert_nodes(svg: any, nodes: Node[], view: NodeViewModel){
     return svg.append("g")
          .attr("fill", view.fill)
          .attr("stroke", view.stroke)
@@ -29,7 +29,7 @@ export function insert_nodes(svg: any, nodes: SimpleNode[], view: NodeViewModel)
 
 
 
-export function insert_links(svg: any, links: SimpleLink[], view: LinkViewModel){
+export function insert_links(svg: any, links: Link[], view: LinkViewModel){
      return svg.append("g")
          .attr("stroke", view.stroke)
          .attr("stroke-opacity", view.stroke_opacity)
@@ -41,7 +41,7 @@ export function insert_links(svg: any, links: SimpleLink[], view: LinkViewModel)
  }
 
 export function force_graph(invalidation: Promise<any> | undefined, width: number, height: number){
-    return (nodes: SimpleNode[], links: SimpleLink[]) => {
+    return (nodes: Node[], links: Link[]) => {
         const forceNode = d3.forceManyBody();
         //@ts-ignore
         const forceLink = d3.forceLink(links).id(({index: i}) => nodes[i].id);
@@ -68,7 +68,10 @@ export function force_graph(invalidation: Promise<any> | undefined, width: numbe
                 .attr("x2", (d: any) => d.target.x)
                 .attr("y2", (d: any) => d.target.y);
             node
-                .attr("cx", (d: any) => d.x)
+                .attr("cx", (d: any) => {
+     
+                    return d.x
+                })
                 .attr("cy", (d: any) => d.y);
         }
 

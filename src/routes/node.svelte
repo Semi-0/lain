@@ -5,8 +5,12 @@
     import { Node, type CSSColorString } from "svelvet"
     import { interpolateLab } from "d3-interpolate"
     import { type NodeViewModel } from "../helper/node_view_model"
-    export let viewModel : NodeViewModel
-    export let onNodeClicked : (node: NodeViewModel) => void
+    interface Props {
+        viewModel: NodeViewModel;
+        onNodeClicked: (node: NodeViewModel) => void;
+    }
+
+    let { viewModel, onNodeClicked }: Props = $props();
  
     
     // @ts-ignore
@@ -15,7 +19,7 @@
         interpolate: interpolateLab
     });
  
-    $: label = viewModel.label
+    let label = $derived(viewModel.label)
 
     function handleClick(e: CustomEvent) {
         const { detail } = e; 

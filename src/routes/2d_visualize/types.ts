@@ -1,9 +1,9 @@
 
-export interface SimpleNode {
+export interface Node {
     id: string 
 }
 
-export interface SimpleLink{
+export interface Link{
     source: string
     target: string 
 }
