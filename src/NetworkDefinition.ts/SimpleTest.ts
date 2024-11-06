@@ -15,9 +15,9 @@ export function operation(){
     const y = construct_cell("y")
     const z = construct_cell("z")
 
-    p_amb(x, possibilities)
-    p_amb(y, possibilities) 
-    p_amb(z, possibilities) 
+    // p_amb(x, possibilities)
+    // p_amb(y, possibilities) 
+    // p_amb(z, possibilities) 
     
     const x2 = construct_cell("x2")
     const y2 = construct_cell("y2")

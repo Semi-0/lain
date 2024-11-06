@@ -35,6 +35,16 @@
 
 </script>
 
+
+<style>
+    /* Apply white text color to all text within the div */
+    div {
+        color: white;
+    }
+</style>
+
+
+
 <div>
 
     <p>Scheduler State: {state}</p>

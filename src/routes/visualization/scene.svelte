@@ -7,21 +7,21 @@
   const scale = spring(1)
   </script>
   
- <T.PerspectiveCamera
+ <!-- <T.PerspectiveCamera
   makeDefault
   position={[10, 10, 10]}
   oncreate={(ref) => {
     ref.lookAt(0, 5, 0)
   }}
-/>
+/> -->
 
-<style>
+<!-- <style>
   :global(body) {
       background-color: black;
       margin: 0;
       padding: 0;
   }
-</style>
+</style> -->
 
 
 <!-- Add Grid -->
@@ -33,13 +33,13 @@
 />
 
 
-<T.Mesh>
+<!-- <T.Mesh>
   <Text3DGeometry text={'Hello World'} />
   <T.MeshStandardMaterial />
-</T.Mesh>
+</T.Mesh> -->
 
 
-<!-- <T.Mesh position.y={1}
+<T.Mesh position.y={1}
   scale={$scale}
   onpointerenter={() => scale.set(1.5)}
   onpointerleave={() => scale.set(1)}

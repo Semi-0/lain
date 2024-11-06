@@ -22,7 +22,9 @@
 	"dependencies": {
 		"@threlte/core": "8.0.0-next.23",
 		"@threlte/extras": "9.0.0-next.33",
+		"@types/d3": "^7.4.3",
 		"@types/d3-interpolate": "^3.0.4",
+		"d3": "^7.9.0",
 		"d3-interpolate": "^3.0.1",
 		"fp-ts": "^2.16.9",
 		"generic-handler": "^0.3.13",
