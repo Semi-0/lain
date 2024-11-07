@@ -5,6 +5,8 @@
 
     import type { Link, Node } from './types'
     import { force_graph } from './simulation'; 
+    import Graph from './graph.svelte';
+    import { invalidate } from '$app/navigation';
 
     // TODO: further extract force directed graph from loading data
 
@@ -51,10 +53,10 @@
             nodes = mapped_data.nodes
             links = mapped_data.links
 
-            const graph = force_graph(undefined, 640, 800)
-            const chart =  graph(mapped_data.nodes, mapped_data.links) 
+            // const graph = force_graph(undefined, 640, 800)
+            // const chart =  graph(mapped_data.nodes, mapped_data.links) 
 
-            d3.select(element).append(() => chart);
+            // d3.select(element).append(() => chart);
         }
     });
 
@@ -80,9 +82,7 @@
             nodeId = d => d.id,
             linkSource = ({source}) => source,
             linkTarget = ({target}) => target,
-            width = 640,
-            height = 400,
-            invalidation
+   
         }: ForceGraphConfig = {}
     ) {
         // Compute values.
@@ -102,10 +102,10 @@
     }
 </script>
 
-<div bind:this={element}>    
-</div>
+<!-- <div bind:this={element}>     -->
 
-<!-- <Graph nodes={nodes} links={links} width={640}, height={400}> -->
+
+<Graph nodes={nodes} links={links} width={1000} height={800} invalidation={undefined} />
 
 <style>
 </style>

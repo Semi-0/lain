@@ -27,8 +27,6 @@ export function insert_nodes(svg: any, nodes: Node[], view: NodeViewModel){
  }
 
 
-
-
 export function insert_links(svg: any, links: Link[], view: LinkViewModel){
      return svg.append("g")
          .attr("stroke", view.stroke)
@@ -62,6 +60,7 @@ export function force_graph(invalidation: Promise<any> | undefined, width: numbe
         if (invalidation != null) invalidation.then(() => simulation.stop());
 
         function ticked() {
+            nodes.forEach((a) => console.log(a))
             link
                 .attr("x1", (d: any) => d.source.x)
                 .attr("y1", (d: any) => d.source.y)
@@ -69,7 +68,6 @@ export function force_graph(invalidation: Promise<any> | undefined, width: numbe
                 .attr("y2", (d: any) => d.target.y);
             node
                 .attr("cx", (d: any) => {
-     
                     return d.x
                 })
                 .attr("cy", (d: any) => d.y);
@@ -77,5 +75,50 @@ export function force_graph(invalidation: Promise<any> | undefined, width: numbe
 
         return Object.assign(svg.node());
     }
+}
+
+
+
+
+
+export function test_simulation(){
+    const construct = spawn_nodes_constructor()
+    var ns: any[] = []
+    var link = {source: 0, target: 1}
+    for(var i = 0; i < 10; i++){
+        ns.push(construct())
+    }
+
+    const simulation = d3.forceSimulation(ns)
+                        .force("link", d3.forceLink([link]).id(({index: i}) => ns[i].index))
+                        .force("charge", d3.forceManyBody())
+                        .force("center", d3.forceCenter())
+                        .on("tick", ticked);
+
+
+    function ticked() {
+        ns.forEach((a) => console.log(a))
+    }
+}
+
+interface TestNode{
+    index: number; 
+    x: number;
+    y: number;
+}
+
+function spawn_nodes_constructor(){
+    var index = 0
+
+    return () =>{
+        const i = index 
+        index += 1
+        return {
+            index : i,
+            x: 0,
+            y: 0
+        }
+    }
+
 }
 

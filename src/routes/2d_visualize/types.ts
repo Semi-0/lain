@@ -1,11 +1,15 @@
 
 export interface Node {
     id: string 
+    x?: number
+    y?: number
 }
 
+
+
 export interface Link{
-    source: string
-    target: string 
+    source: Node
+    target: Node 
 }
 
 export interface LinkViewModel{
