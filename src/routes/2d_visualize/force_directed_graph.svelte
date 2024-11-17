@@ -133,7 +133,7 @@
 <!-- <div bind:this={element}>     -->
 
 
-<Graph nodes={nodes} node_visualizer={circle_node_view} links={links} link_visualizer={line_link_view} />
+<Graph connectables={nodes} connectable_visualizer={circle_node_view} links={links} link_visualizer={line_link_view} />
 
 <style>
 </style>

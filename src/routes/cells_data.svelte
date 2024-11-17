@@ -1,5 +1,5 @@
 <script lang="ts">
-    import CellData from "./cellData.svelte";
+    import CellData from "./cell_data.svelte";
     import { type Cell } from "ppropogator/Cell/Cell"
     export let cells : Cell[]
 </script>

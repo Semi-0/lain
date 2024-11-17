@@ -8,7 +8,7 @@ export interface Node {
 }
 
 export const is_node = register_predicate("is_node", (input: any) => {
-    return input.id !== undefined && input.x !== undefined && input.y !== undefined
+    return input.id !== undefined 
 })
 
 export function safe_get_node_pos(node: Node): Vector{

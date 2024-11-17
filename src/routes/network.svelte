@@ -1,9 +1,10 @@
 <script lang="ts">
     import { cells_to_store, propagators_to_store } from "../convertor/cell->store";
     import { observe_cell_array, observe_propagator_array } from "ppropogator/Shared/PublicState";
-    import CellsData from "./cellsData.svelte";
+    import CellsData from "./cells_data.svelte";
     import { operation } from "../NetworkDefinition.ts/SimpleTest";
     import { execute_all_tasks_sequential, steppable_run_task, summarize_scheduler_state } from "ppropogator/Shared/Reactivity/Scheduler"
+    import Graph from "./2d_visualize/graph.svelte";
     const cells = cells_to_store(observe_cell_array)
     let len = $derived($cells !== undefined ? $cells.length : "undefined")
     let state = $state("");
