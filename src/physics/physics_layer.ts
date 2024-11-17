@@ -9,7 +9,7 @@ import { match_args, register_predicate } from "generic-handler/Predicates";
 import { define_generic_procedure_handler } from "generic-handler/GenericProcedure";
 import { guard, throw_error } from "generic-handler/built_in_generics/other_generic_helper";
 import { is_node } from "./types";
-
+import { make_node } from "./types";
 
 define_generic_procedure_handler(to_string, match_args(is_node), (node: Node) => {
     return `Node(${node.id}, ${node.x}, ${node.y})`
@@ -55,7 +55,16 @@ export function guarantee_has_physics_data(a: LayeredObject){
 }
 
 export function construct_physical_node(base_value: any, ...values: any[]): Node {
-    return {id: base_value, x: values[0], y: values[1]}
+    guard(values.length === 1, throw_error("construct_physical_node:", 
+        "try to set type layer with more than one type",
+         to_string(values)
+    ))
+    if (is_node(values[0])){
+        return values[0]
+    }
+    else{
+        return make_node(values[0])
+    }
 }
 
 export const make_physical = construct_layer_ui(physics_layer,

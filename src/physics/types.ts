@@ -11,6 +11,10 @@ export const is_node = register_predicate("is_node", (input: any) => {
     return input.id !== undefined 
 })
 
+export function make_node(id: string){
+    return {id: id, x: undefined, y: undefined}
+}
+
 export function safe_get_node_pos(node: Node): Vector{
     return make_vector(node.x ?? 0, node.y ?? 0)
 }
