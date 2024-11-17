@@ -3,12 +3,12 @@ import { v4 as uuidv4 } from "uuid"
 import { type Propagator } from "ppropogator/Propagator/Propagator"
 import { construct_simple_generic_procedure, define_generic_procedure_handler } from "generic-handler/GenericProcedure";
 import { match_args, register_predicate } from "generic-handler/Predicates";
-import {  type Store } from "./wrappers";
+import {  type Store } from "../convertor/cell->store";
 import { pipe } from "fp-ts/function";
 import { map } from "ppropogator/Shared/Reactivity/Reactor";
 import { get_base_value } from "ppropogator/Cell/CellValue";
 import { to_string } from "generic-handler/built_in_generics/generic_conversation";
-import { reactor_to_store } from "./wrappers";
+import { reactor_to_store } from "../convertor/cell->store";
 import { readable, readonly } from "svelte/store";
 import { is_cell } from "ppropogator/Cell/Cell"; 
 import { is_propagator } from "ppropogator/Propagator/Propagator";

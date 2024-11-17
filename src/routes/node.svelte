@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { type Store } from "../helper/wrappers"
+    import { type Store } from "../convertor/cell->store"
     // TODO: reactive update value ( how to properly define value?)
     import { tweened } from "svelte/motion";
     import { Node, type CSSColorString } from "svelvet"

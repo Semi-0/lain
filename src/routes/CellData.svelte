@@ -1,6 +1,6 @@
 <script lang="ts">
     import { type Cell } from "ppropogator/Cell/Cell";
-    import { reactor_to_store } from "../helper/wrappers";
+    import { reactor_to_store } from "../convertor/cell->store";
     import { tell } from "ppropogator/Helper/UI";
 
     interface Props {

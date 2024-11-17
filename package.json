@@ -30,7 +30,7 @@
 		"generic-handler": "^0.3.13",
 		"parse-combinator": "^1.0.1",
 		"pmatcher": "^0.3.9",
-		"ppropogator": "0.2.6",
+		"ppropogator": "0.2.9",
 		"sando": "^0.0.0",
 		"sando-layer": "^0.1.6",
 		"svelte-inspect": "^0.1.3",

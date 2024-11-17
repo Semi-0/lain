@@ -38,30 +38,12 @@
             <!-- Draw links first so they appear behind nodes -->
             {#each links as link} 
                 {@render link_visualizer(link)}
-                <!-- {@const source = get_node_pos(link.source)}
-                {@const target = get_node_pos(link.target)} -->
-                <!-- <line 
-                    x1={source.x} 
-                    y1={source.y}
-                    x2={target.x}
-                    y2={target.y}
-                    stroke="#69b3a2"
-                    stroke-width="3"
-                /> -->
+
             {/each}
             
             <!-- Draw nodes -->
             {#each nodes as node}
                 {@render node_visualizer(node)}
-                <!-- {@const pos = get_node_pos(node)}
-                <circle
-                    cx={pos.x}
-                    cy={pos.y}
-                    r="5"
-                    fill="#69b3a2"
-                    stroke="#fff"
-                    stroke-width="1.5"
-                /> -->
             {/each}
         </svg>
 </div>
