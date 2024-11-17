@@ -1,7 +1,7 @@
 import { to_string } from "generic-handler/built_in_generics/generic_conversation";
 import { define_generic_procedure_handler } from "generic-handler/GenericProcedure";
 import { is_layered_object, type LayeredObject } from "sando-layer/Basic/LayeredObject";
-import { get_type_annotate, get_value, is_lisp_list, is_typed_object } from "./type_layer";
+import { get_type_annotate, get_value, is_lisp_list, is_typed_object } from "../interpreter/type_layer";
 import { match_args } from "generic-handler/Predicates";
 import { reduce } from "generic-handler/built_in_generics/generic_array_operation"
 import { match } from "fp-ts/lib/EitherT";

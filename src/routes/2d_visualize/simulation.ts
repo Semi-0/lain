@@ -1,6 +1,6 @@
 
-import type { Node, NodeViewModel, Link, LinkViewModel } from "./types";
-import { default_link_view_model, default_node_view } from "./types";
+import type { Node, NodeViewModel, Link, LinkViewModel } from "../../physics/types";
+import { default_link_view_model, default_node_view } from "../../physics/types";
 import * as d3 from 'd3';
 
 

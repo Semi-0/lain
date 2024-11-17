@@ -1,5 +1,5 @@
 import { Parser, charCode, oneOf, skipMany1,  seq, char, many, noneOf, parse, State, choice, letter, digit, fmap, many1, sepBy } from "parse-combinator"
-import  {  LispType, as_type } from "../helper/type_layer"
+import  {  LispType, as_type } from "./type_layer"
 import * as util from 'util';
 import type { LayeredObject } from "sando-layer/Basic/LayeredObject";
 import type { Layer } from "sando-layer/Basic/Layer";

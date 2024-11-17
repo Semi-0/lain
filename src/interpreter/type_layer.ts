@@ -29,7 +29,9 @@ export enum LispType{
 }
 
 
-export const type_layer = make_annotation_layer("type", (get_name: () => string, 
+export const type_layer = make_annotation_layer(
+    "type", 
+    (get_name: () => string, 
     has_value: (object: any) => boolean,
     get_value: (object: any) => any,
     is_equal: (a: LayeredObject, b: LayeredObject) => boolean): Layer => {
@@ -65,11 +67,7 @@ return {
     get_procedure,
     summarize_self,
     summarize_value,
-    is_equal: (a: LayeredObject, b: LayeredObject) => {
-        const ta = get_value(a)
-        const tb = get_value(b)
-        return ta === tb
-    }
+    is_equal, 
 }
 })
 
