@@ -1,7 +1,7 @@
 // Convert Cell and Propagator to Node and Links
 import { cell_id, is_cell, type Cell } from "ppropogator/Cell/Cell"
 import { is_propagator, type Propagator } from "ppropogator/Propagator/Propagator"
-import { type Node, type Link } from "../physics/types"
+import { type Node, type Link, is_node } from "../physics/types"
 import { make_better_set, set_flat_map, set_map, set_union, type BetterSet } from "generic-handler/built_in_generics/generic_better_set"
 import { construct_better_set } from "generic-handler/built_in_generics/generic_better_set"
 import { propagator_id } from "ppropogator/Propagator/Propagator"
@@ -26,6 +26,25 @@ define_generic_procedure_handler(to_string, match_args(has_physics_data), (objec
     return physics_layer.get_value(object).id
 })
 
+export interface Displayable{
+    nodes: BetterSet<Node | LayeredObject>,
+    links: BetterSet<Link>
+}
+
+export function ensure_node(n : LayeredObject | Node) : Node {
+    // just to make compiler happy
+    if (has_physics_data(n)) {
+        // @ts-ignore
+        return physics_layer.get_value(n)
+    }
+    else if (is_node(n)) {
+        // @ts-ignore
+        return n
+    }
+    else {
+        throw new Error("Not a node")
+    }
+}
 
 export function network_to_displayable(cells: BetterSet<Cell>, propagators: BetterSet<Propagator>){
     return {
