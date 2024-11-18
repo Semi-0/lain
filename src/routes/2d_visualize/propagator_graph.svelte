@@ -1,19 +1,16 @@
 <script lang="ts">
     import { observe_cell_array, observe_propagator_array } from "ppropogator/Shared/PublicState";
-    import { cells_to_store, propagators_to_store } from "../../convertor/cell->store";
-    import { network_to_displayable } from "../../convertor/network->visualizable";
-    import { get_value, make_better_set, to_array } from "generic-handler/built_in_generics/generic_better_set";
-    import {type LayeredObject } from "sando-layer/Basic/LayeredObject";
-    import { has_physics_data, physics_layer } from "../../physics/physics_layer";
+    import { cells_to_store, propagators_to_store } from "../../convertor/cell_to_store";
+    import { network_to_displayable } from "../../convertor/network_to_visualizable";
+    import { make_better_set, to_array } from "generic-handler/built_in_generics/generic_better_set";
+    import { type LayeredObject } from "sando-layer/Basic/LayeredObject";
     import { pipe } from "fp-ts/lib/function";
-    import { is_node, safe_get_node_pos } from "../../physics/types";
+    import { safe_get_node_pos } from "../../physics/types";
     import { translate, make_vector } from "../../helper/vector";
     import { get_x, get_y } from "../../helper/vector";
     import { type Link, type Node } from "../../physics/types";
     import Graph from "./graph.svelte";
-    import { type Displayable } from "../../convertor/network->visualizable";
-    import type { Layer } from "sando-layer/Basic/Layer";
-    import { ensure_node } from "../../convertor/network->visualizable";
+    import { ensure_node } from "../../convertor/network_to_visualizable";
 
     const cells = cells_to_store(observe_cell_array)
     const propagators = propagators_to_store(observe_propagator_array) 
@@ -22,7 +19,6 @@
 
 
 </script>
-
 
 {#snippet cell_view(cell: LayeredObject | Node)}
     <!-- @ts-ignore -->

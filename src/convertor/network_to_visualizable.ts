@@ -63,7 +63,8 @@ function cell_to_node(cell: Cell): Node{
 }
 
 function cell_to_connectable(cell: Cell): LayeredObject{
-    return make_physical(cell, cell_id(cell))
+    return make_physical(cell, cell_to_node(cell))
+
 }
 
 
@@ -76,14 +77,14 @@ function propagator_to_node(propagator: Propagator): Node{
 }
 
 function propagator_to_connectable(propagator: Propagator): LayeredObject{
-    return make_physical(propagator, propagator_id(propagator))
+    return make_physical(propagator, propagator_to_node(propagator))
 }
 
 function propagator_to_links(propagator: Propagator): BetterSet<Link>{
     // TODO: handle bi-directional links
     var inputs = make_better_set(propagator.getInputsID())
     var outputs = make_better_set(propagator.getOutputsID())
-
+ 
     return pipe(set_union(inputs, outputs),
                 (ids: BetterSet<string>) => set_map(ids, (id: string) => {
                     return {

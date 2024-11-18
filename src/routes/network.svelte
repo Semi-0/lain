@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { cells_to_store, propagators_to_store } from "../convertor/cell->store";
+    import { cells_to_store, propagators_to_store } from "../convertor/cell_to_store";
     import { observe_cell_array, observe_propagator_array } from "ppropogator/Shared/PublicState";
     import CellsData from "./cells_data.svelte";
     import { operation } from "../NetworkDefinition.ts/SimpleTest";
