@@ -32,8 +32,10 @@
 
     var nodes = parameters.connectables.map(ensure_node)
 
+    $inspect(parameters.links)
+
     let simulation = $state(d3.forceSimulation(nodes)
-                            .force("link", d3.forceLink(parameters.links).id((n, i, d) => nodes[i].id))
+                            .force("link", d3.forceLink(parameters.links))
                             .force("charge", d3.forceManyBody())
                             .force("center", d3.forceCenter()))
                             

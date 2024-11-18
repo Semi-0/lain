@@ -2,7 +2,7 @@
     import { observe_cell_array, observe_propagator_array } from "ppropogator/Shared/PublicState";
     import { cells_to_store, propagators_to_store } from "../../convertor/cell_to_store";
     import { network_to_displayable } from "../../convertor/network_to_visualizable";
-    import { make_better_set, to_array } from "generic-handler/built_in_generics/generic_better_set";
+    import { make_better_set, set_get_length, to_array } from "generic-handler/built_in_generics/generic_better_set";
     import { type LayeredObject } from "sando-layer/Basic/LayeredObject";
     import { pipe } from "fp-ts/lib/function";
     import { safe_get_node_pos } from "../../physics/types";
@@ -11,12 +11,15 @@
     import { type Link, type Node } from "../../physics/types";
     import Graph from "./graph.svelte";
     import { ensure_node } from "../../convertor/network_to_visualizable";
-
+    import { to_string } from "generic-handler/built_in_generics/generic_conversation";
+    import { operation } from "../../NetworkDefinition.ts/SimpleTest";
     const cells = cells_to_store(observe_cell_array)
     const propagators = propagators_to_store(observe_propagator_array) 
 
     let displayables = $derived(network_to_displayable(make_better_set($cells), make_better_set($propagators)))
+    
 
+    operation()
 
 </script>
 
@@ -37,6 +40,7 @@
 {#snippet link_view(link: Link)}
     {@const source = pipe(safe_get_node_pos(link.source), translate(make_vector(300, 300)))}
     {@const target = pipe(safe_get_node_pos(link.target), translate(make_vector(300, 300)))}
+
     <line
         x1={get_x(source)}
         y1={get_y(source)}

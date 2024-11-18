@@ -1,8 +1,8 @@
 // Convert Cell and Propagator to Node and Links
 import { cell_id, is_cell, type Cell } from "ppropogator/Cell/Cell"
 import { is_propagator, type Propagator } from "ppropogator/Propagator/Propagator"
-import { type Node, type Link, is_node } from "../physics/types"
-import { make_better_set, set_flat_map, set_map, set_union, type BetterSet } from "generic-handler/built_in_generics/generic_better_set"
+import { type Node, type Link, is_node, make_node } from "../physics/types"
+import { make_better_set, merge_set, set_find, set_flat_map, set_get_length, set_map, set_union, type BetterSet } from "generic-handler/built_in_generics/generic_better_set"
 import { construct_better_set } from "generic-handler/built_in_generics/generic_better_set"
 import { propagator_id } from "ppropogator/Propagator/Propagator"
 import { pipe } from "fp-ts/lib/function"
@@ -12,6 +12,7 @@ import { match_args } from "generic-handler/Predicates"
 import { has_physics_data, make_physical, physics_layer } from "../physics/physics_layer"
 import { compose } from "generic-handler/built_in_generics/generic_combinator"
 import type { LayeredObject } from "sando-layer/Basic/LayeredObject"
+import { get_base_value } from "sando-layer/Basic/Layer"
 
 
 define_generic_procedure_handler(to_string, match_args(is_cell), (cell: Cell) => {
@@ -42,24 +43,26 @@ export function ensure_node(n : LayeredObject | Node) : Node {
         return n
     }
     else {
-        throw new Error("Not a node")
+        throw new Error("Not a node:" + to_string(n))
     }
 }
 
 export function network_to_displayable(cells: BetterSet<Cell>, propagators: BetterSet<Propagator>){
+
+    const nodes = merge_set(set_map(cells, cell_to_connectable), set_map(propagators, propagator_to_connectable))
+    const links = pipe(set_flat_map(propagators, propagator_to_links(nodes)))
+
+
+
     return {
-        nodes: set_union(set_map(cells, cell_to_connectable), set_map(propagators, propagator_to_connectable)),
-        links: set_flat_map(propagators, propagator_to_links)
+        nodes: nodes,
+        links: links
     }
 }
 
 
 function cell_to_node(cell: Cell): Node{
-    return {
-        id: cell_id(cell),
-        x: 0,
-        y: 0
-    }
+    return make_node(cell_id(cell))
 }
 
 function cell_to_connectable(cell: Cell): LayeredObject{
@@ -71,8 +74,6 @@ function cell_to_connectable(cell: Cell): LayeredObject{
 function propagator_to_node(propagator: Propagator): Node{
     return {
         id: propagator_id(propagator),
-        x: 0,
-        y: 0
     }
 }
 
@@ -80,16 +81,31 @@ function propagator_to_connectable(propagator: Propagator): LayeredObject{
     return make_physical(propagator, propagator_to_node(propagator))
 }
 
-function propagator_to_links(propagator: Propagator): BetterSet<Link>{
+function propagator_to_links(nodes: BetterSet<LayeredObject>): (propagator: Propagator) => BetterSet<Link>{
+
+    return (propagator: Propagator) => {
     // TODO: handle bi-directional links
-    var inputs = make_better_set(propagator.getInputsID())
-    var outputs = make_better_set(propagator.getOutputsID())
- 
-    return pipe(set_union(inputs, outputs),
-                (ids: BetterSet<string>) => set_map(ids, (id: string) => {
-                    return {
-                        source: {id: propagator_id(propagator)},
-                        target: {id: id}
-                    }
-                }))
+        var inputs = make_better_set(propagator.getInputsID())
+        var outputs = make_better_set(propagator.getOutputsID())
+
+        const find_reference_node = (id: string) => {
+            
+
+            const node = set_find((node: LayeredObject) => physics_layer.get_value(node).id === id , nodes)
+            if (node){
+                return physics_layer.get_value(node) 
+            }
+            else{
+                throw Error("Node not found:" + id)
+            }
+        }
+    
+        return pipe(merge_set(inputs, outputs),
+                    (ids: BetterSet<string>) => set_map(ids, (id: string) => {
+                        return {
+                            source: find_reference_node(propagator_id(propagator)) ,
+                            target: find_reference_node(id)
+                        }
+                    }))
+    }
 }

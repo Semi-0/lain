@@ -3,12 +3,14 @@ import { construct_cell, type Cell } from "ppropogator/Cell/Cell"
 import { c_multiply, p_add, p_multiply } from "ppropogator/Propagator/BuiltInProps"
 import { enum_num_set, tell } from "ppropogator/Helper/UI"
 import { p_amb } from "ppropogator/Propagator/Search"
-import { set_global_state } from "ppropogator/Shared/PublicState"
+import { public_state_message, set_global_state } from "ppropogator/Shared/PublicState"
 import { PublicStateCommand } from "ppropogator/Shared/PublicState"
 import { merge_value_sets } from "ppropogator/DataTypes/ValueSet"
 
 export function operation(){
     set_global_state(PublicStateCommand.SET_CELL_MERGE, merge_value_sets)   
+    set_global_state(PublicStateCommand.CLEAN_UP)
+   
     const possibilities = enum_num_set(10, 20)
 
     const x = construct_cell("x")
