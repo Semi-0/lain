@@ -8,6 +8,8 @@
     import { derived } from 'svelte/store';
     import { has_physics_data, physics_layer } from '../../physics/physics_layer';
     import { ensure_node } from '../../convertor/network_to_visualizable';
+    import { reactor_to_store } from '../../convertor/cell_to_store';
+    import { construct_reactor } from 'ppropogator/Shared/Reactivity/Reactor';
     interface Props{
         connectables: Node[] | LayeredObject[],
         connectable_visualizer: Snippet<[node: Node | LayeredObject]>,
@@ -27,7 +29,7 @@
                             .force("charge", d3.forceManyBody())
                             .force("center", d3.forceCenter())
                             .on("tick", () => {
-                               update = !update
+                              update = !update 
                             })
                         )
                             
