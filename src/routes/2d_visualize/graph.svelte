@@ -7,7 +7,7 @@
     import { is_layered_object, type LayeredObject } from 'sando-layer/Basic/LayeredObject';
     import { derived } from 'svelte/store';
     import { has_physics_data, physics_layer } from '../../physics/physics_layer';
-
+    import { ensure_node } from '../../convertor/network_to_visualizable';
     interface Props{
         connectables: Node[] | LayeredObject[],
         connectable_visualizer: Snippet<[node: Node | LayeredObject]>,
@@ -18,30 +18,21 @@
 
     let parameters : Props = $props()
 
-    function ensure_node(input: Node | LayeredObject): Node{
-        if(is_layered_object(input) && has_physics_data(input)){
-            return physics_layer.get_value(input as LayeredObject)
-        }
-        else if (is_node(input)){
-            return input as Node
-        }
-        else{
-            throw new Error("Invalid input")
-        }
-    }
 
     var nodes = parameters.connectables.map(ensure_node)
-
-    $inspect(parameters.links)
+    let update = $state(false)
 
     let simulation = $state(d3.forceSimulation(nodes)
                             .force("link", d3.forceLink(parameters.links).id((n, i, d) => nodes[i].id))
                             .force("charge", d3.forceManyBody())
-                            .force("center", d3.forceCenter()))
+                            .force("center", d3.forceCenter())
+                            .on("tick", () => {
+                               update = !update
+                            })
+                        )
                             
 
     $effect(() => {
-       
         nodes = parameters.connectables.map(ensure_node)
         simulation.nodes(nodes)
         simulation.force("link", d3.forceLink(parameters.links).id((n, i, d) => nodes[i].id))
@@ -53,7 +44,7 @@
 
 </script>
 
-
+{#key update}
 <div class="center-wrapper">
         <svg class="responsive-svg" width=1024 height=768>
             <!-- Draw links first so they appear behind nodes -->
@@ -68,6 +59,7 @@
             {/each}
         </svg>
 </div>
+{/key}
 
 <style>
     .center-wrapper {

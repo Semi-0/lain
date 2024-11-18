@@ -41,6 +41,7 @@
     let nodes: Node[] = $state([])
     let links: Link[] = $state([])
 
+
     onMount(async function() {
         const data = await d3.json<GraphData>('https://vega.github.io/vega-datasets/data/miserables.json');
         console.log(data);
@@ -54,11 +55,6 @@
 
             nodes = mapped_data.nodes
             links = mapped_data.links
-
-            // const graph = force_graph(undefined, 640, 800)
-            // const chart =  graph(mapped_data.nodes, mapped_data.links) 
-
-            // d3.select(element).append(() => chart);
         }
     });
 

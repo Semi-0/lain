@@ -16,6 +16,7 @@ export function make_node(id: string){
 }
 
 export function safe_get_node_pos(node: Node): Vector{
+    // console.log("safe_get_pos: get pos")
     return make_vector(node.x ?? 0, node.y ?? 0)
 }
 

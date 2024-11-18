@@ -33,6 +33,7 @@ export interface Displayable{
 }
 
 export function ensure_node(n : LayeredObject | Node) : Node {
+
     // just to make compiler happy
     if (has_physics_data(n)) {
         // @ts-ignore
@@ -72,9 +73,8 @@ function cell_to_connectable(cell: Cell): LayeredObject{
 
 
 function propagator_to_node(propagator: Propagator): Node{
-    return {
-        id: propagator_id(propagator),
-    }
+    return make_node(propagator_id(propagator))
+  
 }
 
 function propagator_to_connectable(propagator: Propagator): LayeredObject{
@@ -103,8 +103,8 @@ function propagator_to_links(nodes: BetterSet<LayeredObject>): (propagator: Prop
         return pipe(merge_set(inputs, outputs),
                     (ids: BetterSet<string>) => set_map(ids, (id: string) => {
                         return {
-                            source: find_reference_node(propagator_id(propagator)) ,
-                            target: find_reference_node(id)
+                            source: propagator_id(propagator) ,
+                            target: id
                         }
                     }))
     }
