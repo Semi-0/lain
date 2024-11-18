@@ -8,11 +8,11 @@
 - Map nodes -->
 
 <script>
-    import Network from './network.svelte';
-    import { Canvas } from "@threlte/core"
-    import Scene from "./visualization/scene.svelte"
+    // import Network from './network.svelte';
+    // import { Canvas } from "@threlte/core"
+    // import Scene from "./visualization/scene.svelte"
     import ForceDirectedGraph from './2d_visualize/force_directed_graph.svelte';
-    import PropagatorGraph from './2d_visualize/propagator_graph.svelte';
+    // import PropagatorGraph from './2d_visualize/propagator_graph.svelte';
     // import d3 from 'd3'
 
         // colors: d3.schemeTableau10
@@ -22,9 +22,9 @@
 </script>
 
 <!-- <Network />  -->
-<PropagatorGraph />
+<!-- <PropagatorGraph /> -->
 
-<!-- <ForceDirectedGraph   /> -->
+<ForceDirectedGraph   />
  
 <!-- <Canvas>
     <Scene />
