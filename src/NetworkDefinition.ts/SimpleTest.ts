@@ -8,8 +8,11 @@ import { PublicStateCommand } from "ppropogator/Shared/PublicState"
 import { merge_value_sets } from "ppropogator/DataTypes/ValueSet"
 
 export function operation(){
-    set_global_state(PublicStateCommand.SET_CELL_MERGE, merge_value_sets)   
     set_global_state(PublicStateCommand.CLEAN_UP)
+
+
+    set_global_state(PublicStateCommand.SET_CELL_MERGE, merge_value_sets)   
+   
    
     const possibilities = enum_num_set(10, 20)
 
@@ -29,7 +32,7 @@ export function operation(){
     p_multiply(y, y, y2)
     p_multiply(z, z, z2) 
     
-    p_add(x2, y2, z2) 
+    p_multiply(x2, y, z2) 
 
     
 }
