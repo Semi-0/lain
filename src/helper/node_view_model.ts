@@ -12,7 +12,7 @@ import { reactor_to_store } from "../convertor/cell_to_store";
 import { readable, readonly } from "svelte/store";
 import { is_cell } from "ppropogator/Cell/Cell"; 
 import { is_propagator } from "ppropogator/Propagator/Propagator";
-// TODO: use particle spring to auto calculate position
+// TODO: use particle spring to auto calculate position done
 export interface NodeViewModel {
     id: string;
     label: Store<string>;

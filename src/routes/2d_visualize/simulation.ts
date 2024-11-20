@@ -4,6 +4,15 @@ import { default_link_view_model, default_node_view } from "../../physics/types"
 import * as d3 from 'd3';
 
 
+export function create_simulation(nodes: Node[], links: Link[]){
+    return d3.forceSimulation(nodes)
+    .force("link", d3.forceLink(links).id((n, i, d) => nodes[i].id))
+    .force("charge", d3.forceManyBody())
+    .force("center", d3.forceCenter())
+}
+
+
+
 export function create_SVG(d3: any, width: number, height: number){
     return  d3.create("svg")
         .attr("width", width)

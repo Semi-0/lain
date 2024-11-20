@@ -50,52 +50,21 @@
     })
 
 
-      // Scale and translation variables
-  let scale = $state(1);
-  let translateX = $state(0);
-  let translateY = $state(0);
-
-  // Variables for panning
-  let isPanning = $state(false);
-  let startX: number = $state(0);
-  let startY: number = $state(0);
-
-  function handleMouseDown(event: MouseEvent) {
-    isPanning = true;
-    startX = event.clientX - translateX;
-    startY = event.clientY - translateY;
-  }
-
-  function handleMouseMove(event: MouseEvent) {
-    if (isPanning) {
-      translateX = event.clientX - startX;
-      translateY = event.clientY - startY;
-    }
-  }
-
-  function handleMouseUp() {
-    isPanning = false;
-  }
 
 
 </script>
 
-<input type="range" min="0.5" max="4" step="0.1" bind:value={scale} />
+<input type="range" min="0.5" max="4" step="0.1"  />
 
 {#key update}
-<div class="center-wrapper" style="background-color: black;"  >
-        <div 
-            role="application"
-            tabindex="0"
-            onmousedown={handleMouseDown}
-            onmousemove={handleMouseMove}
-            onmouseup={handleMouseUp}
-            onmouseleave={handleMouseUp}>
+<div class="center-wrapper"   >
+        <div>
             <svg class="responsive-svg" 
                 width = 10000
                 height=10000
-                role="img">
-            <g transform="translate({translateX}, {translateY}) scale({scale})">
+                role="img"
+                transform={`scale(2)`}>
+
                 <!-- Draw links first so they appear behind nodes -->
                 {#each parameters.links as link} 
                     {@render parameters.link_visualizer(link)}
@@ -105,7 +74,7 @@
                 {#each parameters.connectables as input}
                     {@render parameters.connectable_visualizer(input)}
                 {/each}
-            </g>
+   
             </svg>
         </div>
 </div>

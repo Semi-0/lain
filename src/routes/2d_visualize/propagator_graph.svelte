@@ -32,16 +32,12 @@
     let scheduler_state = $state("unruned")
     let t = $state(construct_stateful_reactor(true))
 
+    // TODO: 1.extract simulation logic into function because that could be more flexible
+    // 2. add single view for each cell (it should update as long as cell content is changing)
+    // 3. add single view for each propagator (it should update as long as propagator content is changing)
 
 
     async function ticking(){
-    //  execute_all_tasks_sequential((e) => {
-    //         if (e){
-    //             console.log(e)
-    //         }
-    //     })
-    //     t.next(!t.get_value())
-    //     scheduler_state = summarize_scheduler_state()
        
 
         for (let i = 0; i < 30000; i++){    
@@ -63,6 +59,7 @@
 
     operation()
 
+    // TODO: 5. this is so dumb!!
     function get_connectable_name(o: LayeredObject | Node): string{
         if (is_layered_object(o)){
             const obj = get_base_value(o)

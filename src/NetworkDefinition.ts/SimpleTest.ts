@@ -32,7 +32,7 @@ export function operation(){
     p_multiply(y, y, y2)
     p_multiply(z, z, z2) 
     
-    p_multiply(x2, y, z2) 
+    p_multiply(x2, y2, z2) 
 
     
 }
