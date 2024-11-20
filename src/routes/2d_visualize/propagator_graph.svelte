@@ -18,6 +18,9 @@
     import { get_position  } from "../../physics/physics_layer";
     import { type Link } from "../../physics/types";
     import Graph from "./force_directed_graph/graph.svelte";
+    import NodeVisualize from "./primitive_visualization/node_visualize.svelte";
+    import LinkVisualize from "./primitive_visualization/link_visualize.svelte";
+    import { construct_reactor } from "ppropogator/Shared/Reactivity/Reactor";
     // TODO: 1.extract simulation logic into function because that could be more flexible
     // 2. add single view for each cell (it should update as long as cell content is changing)
     // 3. add single view for each propagator (it should update as long as propagator content is changing)
@@ -31,12 +34,13 @@
 
     
     let scheduler_state = $state("unruned")
+    let updater_2 = $state(construct_reactor())
     let updater = $state(false)
     let simulation = $derived(create_simulation_from_set(displayables.nodes_layered, displayables.links)
                             .on("tick", () => {
                                 // console.log(updater)
                                 updater = !updater
-                           
+                                updater_2.next(true)
                             }))
 
     
@@ -117,8 +121,20 @@
 {/snippet}
 
 
+<div class="center-wrapper"   >
+        <div>
+            <svg class="responsive-svg" 
+                width = 300
+                height=300
+                role="img"
+                transform={`scale(2) translate(200, 200) ` }>
+                {#each node_layered as node }
+                    <NodeVisualize node={node} update={updater_2} />
+                {/each}
+            </svg>
+    </div>
+</div>
 
-
-
-<Graph connectables={node_layered} connectable_visualizer={connectable_view} links={to_array(displayables.links)} link_visualizer={link_view} update_signal={updater}  /> 
+<!-- 
+<Graph connectables={node_layered} connectable_visualizer={connectable_view} links={to_array(displayables.links)} link_visualizer={link_view} update_signal={updater}  />   -->
 
