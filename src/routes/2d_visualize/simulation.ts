@@ -1,7 +1,17 @@
 
+import { generic_wrapper } from "generic-handler/built_in_generics/generic_wrapper";
 import type { Node, NodeViewModel, Link, LinkViewModel } from "../../physics/types";
 import { default_link_view_model, default_node_view } from "../../physics/types";
 import * as d3 from 'd3';
+import { set_map, to_array, type BetterSet } from "generic-handler/built_in_generics/generic_better_set";
+import { compose } from "generic-handler/built_in_generics/generic_combinator";
+import type { LayeredObject } from "sando-layer/Basic/LayeredObject";
+import { ensure_node } from "../../convertor/network_to_visualizable";
+import { construct_simple_generic_procedure, define_generic_procedure_handler } from "generic-handler/GenericProcedure";
+import { throw_error } from "generic-handler/built_in_generics/other_generic_helper";
+import { match_args } from "generic-handler/Predicates";
+
+
 
 
 export function create_simulation(nodes: Node[], links: Link[]){
@@ -10,6 +20,14 @@ export function create_simulation(nodes: Node[], links: Link[]){
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter())
 }
+
+export const ensure_nodes = (s: BetterSet<LayeredObject>) => set_map(s, ensure_node) 
+
+export const create_simulation_from_set = generic_wrapper(create_simulation, 
+                                                        (a) => a, 
+                                                       compose(ensure_nodes, to_array), 
+                                                        to_array)
+
 
 
 
@@ -99,6 +117,7 @@ export function test_simulation(){
     }
 
     const simulation = d3.forceSimulation(ns)
+    //@ts-ignore
                         .force("link", d3.forceLink([link]).id(({index: i}) => ns[i].index))
                         .force("charge", d3.forceManyBody())
                         .force("center", d3.forceCenter())

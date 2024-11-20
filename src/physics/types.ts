@@ -1,11 +1,14 @@
 import { register_predicate } from "generic-handler/Predicates"
-import { make_vector, type Vector } from "../helper/vector"
+import { make_vector, type Vector } from "./vector"
+import { is_string } from "generic-handler/built_in_generics/generic_predicates"
 
 export interface Node {
     id: string 
     x?: number
     y?: number
 }
+
+
 
 export const is_node = register_predicate("is_node", (input: any) => {
     return input.id !== undefined 
@@ -15,8 +18,7 @@ export function make_node(id: string){
     return {id: id, x: undefined, y: undefined, vx: 0, vy: 0}
 }
 
-export function safe_get_node_pos(node: Node): Vector{
-    // console.log("safe_get_pos: get pos")
+export function get_node_pos(node: Node): Vector{
     return make_vector(node.x ?? 0, node.y ?? 0)
 }
 

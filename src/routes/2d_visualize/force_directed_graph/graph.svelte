@@ -1,16 +1,14 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import * as d3 from 'd3';
-    import { force_graph } from './simulation'; 
-    import { type Node, type Link, is_node } from "../../physics/types"
+
+    import { type Node, type Link, is_node } from "../../../physics/types"
     import type { Snippet } from 'svelte';
     import { is_layered_object, type LayeredObject } from 'sando-layer/Basic/LayeredObject';
-    import { derived } from 'svelte/store';
-    import { has_physics_data, physics_layer } from '../../physics/physics_layer';
-    import { ensure_node } from '../../convertor/network_to_visualizable';
-    import { reactor_to_store } from '../../convertor/cell_to_store';
-    import { construct_reactor, type StandardReactor } from 'ppropogator/Shared/Reactivity/Reactor';
-    import { type Reactor } from 'ppropogator/Shared/Reactivity/Reactor';
+
+    import { ensure_node } from '../../../convertor/network_to_visualizable';
+    import type { StandardReactor } from 'ppropogator/Shared/Reactivity/Reactor';
+
     interface Props{
         connectables: Node[] | LayeredObject[],
         connectable_visualizer: Snippet<[node: Node | LayeredObject]>,
@@ -95,7 +93,4 @@
         max-height: 600px; /* Optional: set a max height */
     }
 
-
-
-  
 </style>

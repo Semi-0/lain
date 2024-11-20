@@ -3,12 +3,10 @@
     import { onMount } from 'svelte';
     import * as d3 from 'd3';
 
-    import type { Link, Node } from '../../physics/types'
-    import { force_graph } from './simulation'; 
+    import type { Link, Node } from '../../../physics/types'
     import Graph from './graph.svelte';
-    import { invalidate } from '$app/navigation';
-    import { safe_get_node_pos } from '../../physics/types';
-    import { get_x, get_y, make_vector, translate } from '../../helper/vector';
+    import { get_node_pos } from '../../../physics/types';
+    import { get_x, get_y, make_vector, translate } from '../../../physics/vector';
     import { pipe } from 'fp-ts/lib/function';
     // TODO: further extract force directed graph from loading data
 
@@ -102,7 +100,7 @@
 </script>
 
 {#snippet circle_node_view(node: Node)}
-    {@const position = pipe(safe_get_node_pos(node), translate(make_vector(300, 300)))}
+    {@const position = pipe(get_node_pos(node), translate(make_vector(300, 300)))}
     <circle
         cx={get_x(position)}
         cy={get_y(position)}
@@ -114,8 +112,8 @@
 {/snippet}
 
 {#snippet line_link_view(link: Link)}
-    {@const source = pipe(safe_get_node_pos(link.source), translate(make_vector(300, 300)))}
-    {@const target = pipe(safe_get_node_pos(link.target), translate(make_vector(300, 300)))}
+    {@const source = pipe(get_node_pos(link.source), translate(make_vector(300, 300)))}
+    {@const target = pipe(get_node_pos(link.target), translate(make_vector(300, 300)))}
     <line
         x1={get_x(source)}
         y1={get_y(source)}

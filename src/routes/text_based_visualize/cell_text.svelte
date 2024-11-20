@@ -7,8 +7,8 @@
 
 <script lang="ts">
     import { type Cell } from "ppropogator/Cell/Cell"
-    import NodeView from "./node.svelte";
-    import { to_node_view_model } from "../helper/node_view_model";
+    import NodeView from "./node_text.svelte";
+    import { to_node_view_model } from "../../helper/node_view_model";
     export let cell : Cell
 </script>
 

@@ -1,15 +1,18 @@
 
 // PHYSICS LAYER CONTAIN PHYSICS DATA AS NODES
 import { make_annotation_layer } from "sando-layer/Basic/Layer";
-import { type Node } from "./types";
+import { get_node_pos, type Node } from "./types";
 import { type Layer } from "sando-layer/Basic/Layer";
 import { construct_layer_ui, is_layered_object, type LayeredObject } from "sando-layer/Basic/LayeredObject";
 import { to_string } from "generic-handler/built_in_generics/generic_conversation";
 import { match_args, register_predicate } from "generic-handler/Predicates";
-import { define_generic_procedure_handler } from "generic-handler/GenericProcedure";
+import { construct_simple_generic_procedure, define_generic_procedure_handler } from "generic-handler/GenericProcedure";
 import { guard, throw_error } from "generic-handler/built_in_generics/other_generic_helper";
 import { is_node } from "./types";
 import { make_node } from "./types";
+import { compose } from "generic-handler/built_in_generics/generic_combinator";
+import { is_string } from "generic-handler/built_in_generics/generic_predicates";
+import { make_vector } from "./vector";
 
 define_generic_procedure_handler(to_string, match_args(is_node), (node: Node) => {
     return `Node(${node.id}, ${node.x}, ${node.y})`
@@ -73,3 +76,18 @@ export const make_physical = construct_layer_ui(physics_layer,
         throw Error("try to set type layer with more than one type")
     }
 )
+
+
+export const get_position = construct_simple_generic_procedure("get_position", 1, 
+    
+    (o) => {
+       return make_vector(0, 0)
+    })
+
+
+
+define_generic_procedure_handler(get_position, match_args(is_node), get_node_pos)
+// means it is node id
+define_generic_procedure_handler(get_position, match_args(is_string), get_node_pos)
+
+define_generic_procedure_handler(get_position, match_args(has_physics_data), compose(physics_layer.get_value, get_position))

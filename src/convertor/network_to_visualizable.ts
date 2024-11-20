@@ -56,7 +56,7 @@ export function network_to_displayable(cells: BetterSet<Cell>, propagators: Bett
 
 
     return {
-        nodes: nodes,
+        nodes_layered: nodes,
         links: links
     }
 }
