@@ -10,7 +10,7 @@
     import { pipe } from "fp-ts/lib/function";
     import { construct_reactor_wrapper, ReactorWrapper } from "../../../convertor/reactor_to_state.svelte";
     import { to_string } from "generic-handler/built_in_generics/generic_conversation";
-
+    import { observe_x } from "../../../physics/physics_layer";
 
     interface Prop{
         node:  LayeredObject,
@@ -19,16 +19,6 @@
 
     
     let props: Prop = $props()
-    let updater = new ReactorWrapper<number>(props.update, 0)
-
-    // $effect(() => {
-    //     console.log("effected")
-    // })
-
-    // onMount(() => {
-    //     console.log("node mounted") 
-    // })
-    
 
     let last_value_saver = $state(new Map<string, any>())
     function get_color(o: LayeredObject | Node): string{
@@ -47,17 +37,24 @@
             return "#66ff66"
         }
     }
+    //@ts-ignore
+    let position =  new ReactorWrapper(observe_x(props.node), make_vector(5, 0))
+    let signal = new ReactorWrapper(props.update, 0)
+    // let color = $derived(get_color(cell))
+    let middle = $state(make_vector(0, 0))
+    let count = $state(0)
 
-    let cell = props.node
-    let position = $state(construct_reactor_wrapper(observe_position(cell), make_vector(0, 0)))
-    let color = $derived(get_color(cell))
+    function increment(){
+        count = count + 1
+    }
 
     position.do((pos: Vector) => {
-        console.log("position changed:", pos)
+        console.log("position changed:", position.value)
     })
     
-    let test_pos = $state(make_vector(0, 0))
-    $inspect(test_pos)
+    $effect(() => {
+        console.log("effected")
+    })
     
     onMount(() => {
         console.log("mounted")
@@ -65,7 +62,7 @@
 
 
     // @ts-ignore
-    let strongest_value_store : ReactorWrapper = new ReactorWrapper(get_value_publisher(cell), "0")
+    let strongest_value_store : ReactorWrapper = new ReactorWrapper(get_value_publisher(props.node), "0")
 
 
     $inspect(strongest_value_store)
@@ -75,21 +72,21 @@
 
 
 
-<!-- <text x={200} y={200} text-anchor="middle" dy=".3em" font-size="8px">
-    {get_x(position)}
-</text> -->
-
- <circle
+<text x=50 y= 50>
+    {position.value}
+</text>
+<!-- 
+<circle
     cx={get_x(position.value) }
     cy={get_y(position.value) }
     r="4"
 />  
-
-<text style="font-family:'Times New Roman', Times, serif" x={get_x(position.value) }
- y={get_y(position.value) - 10 } text-anchor="middle" dy=".3em"
-  font-size="8px">
+{/key} -->
+<!-- <text style="font-family:'Times New Roman', Times, serif" x={get_x(position.value) }
+y={get_y(position.value) - 10 } text-anchor="middle" dy=".3em"
+font-size="8px">
     {get_name(cell)} {strongest_value_store.value}
-</text>
+</text> -->
 
- 
+
 

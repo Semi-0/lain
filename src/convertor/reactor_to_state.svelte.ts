@@ -17,10 +17,11 @@ export class ReactorWrapper<E>{
     side_effect = (v: E) => {}
 
     constructor(reactor: Reactor<E>, default_value: E){
+        console.log(reactor)
         this.value = default_value
         reactor.subscribe((v) => { 
-            this.side_effect(v)
             this.value = v
+            this.side_effect(this.value)
         })
     }
 

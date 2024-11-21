@@ -12,7 +12,7 @@ import { is_node } from "./physical_node";
 import { make_node } from "./physical_node";
 import { compose } from "generic-handler/built_in_generics/generic_combinator";
 import { is_string } from "generic-handler/built_in_generics/generic_predicates";
-import { make_vector, type Vector } from "./vector";
+import { get_x, make_vector, type Vector } from "./vector";
 import { construct_reactor, construct_readonly_reactor, construct_stateful_reactor, type ReadOnlyReactor, type StandardReactor, type StatefulReactor } from "ppropogator/Shared/Reactivity/Reactor";
 import { map } from "ppropogator/Shared/Reactivity/Reactor";
 // TODO: a reactive object to make svelte happy
@@ -66,6 +66,7 @@ const observable_store = new Map<string, StandardReactor<Node>>()
 export function construct_reactive_node(id: string): Node{
     const inner: StatefulReactor<Node> = construct_stateful_reactor(make_node(id))
     observable_store.set(id, inner)
+    
     return {
         id: id,
         get x(): number | undefined{
@@ -84,6 +85,8 @@ export function construct_reactive_node(id: string): Node{
         vy: inner.get_value().vy,
     }
 }
+
+
 
 export const is_reactive_node = register_predicate("is_reactive_node", (n: Node) => {
     return observable_store.has(n.id)
@@ -104,22 +107,21 @@ export function construct_physical_node(base_value: any, ...values: any[]): Node
          to_string(values)
     ))
     if (is_node(values[0])){
-        return values[0]
+        return  construct_reactive_node(values[0].id)
     }
     else{
         return construct_reactive_node(values[0])
     }
 }
 
-export function observe_physical_data(o: LayeredObject): ReadOnlyReactor<Node>{
-    // @ts-ignore
-    return compose(physics_layer.get_value, fetch_observable_from_node)
-}
+export const observe_physical_data = compose(physics_layer.get_value, fetch_observable_from_node)
 
-export function observe_position(o: LayeredObject): StandardReactor<Vector>{
-    //@ts-ignore
-    return compose(observe_physical_data, map(get_node_pos))
-}
+// @ts-ignore
+export const observe_position = compose(observe_physical_data, map(get_node_pos))
+
+//@ts-ignore
+export const observe_x = compose(observe_position, map(get_x))
+
 
 export const make_physical = construct_layer_ui(physics_layer,
     construct_physical_node,

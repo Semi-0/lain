@@ -21,7 +21,7 @@ export function operation(){
     const z = construct_cell("z")
 
     p_amb(x, possibilities)
-    p_amb(y, possibilities) 
+    p_amb(y, possibilities) []
     p_amb(z, possibilities) 
     
     const x2 = construct_cell("x2")

@@ -32,7 +32,7 @@
 
     let displayables = $derived(network_to_displayable(make_better_set(cells.value), make_better_set(propagators.value)))
     let links: Link[] = $state([])
-    let node_layered: LayeredObject[] = $state([])
+    let node_layered: LayeredObject[] = $derived(to_array(displayables.nodes_layered))
 
     
     let scheduler_state = $state("unruned")
@@ -124,7 +124,7 @@
 {/snippet}
 
 <!-- {#key test_state.value} -->
-<!-- <div class="center-wrapper"   >
+<div class="center-wrapper"   >
         <div>
             <svg class="responsive-svg" 
                 width = 300
@@ -136,7 +136,7 @@
                 {/each}
             </svg>
     </div>
-</div> -->
+</div>
 <!-- {/key} -->
 <!-- 
 <Graph connectables={node_layered} connectable_visualizer={connectable_view} links={to_array(displayables.links)} link_visualizer={link_view} update_signal={updater}  />    -->
