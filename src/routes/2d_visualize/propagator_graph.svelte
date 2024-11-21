@@ -31,7 +31,7 @@
     const propagators = new ReactorWrapper(observe_propagator_array, [])
 
     let displayables = $derived(network_to_displayable(make_better_set(cells.value), make_better_set(propagators.value)))
-    let links: Link[] = $state([])
+    let links: Link[] = $derived(to_array(displayables.links))
     let node_layered: LayeredObject[] = $derived(to_array(displayables.nodes_layered))
 
     
@@ -40,7 +40,7 @@
     let test_state = new ReactorWrapper<number>(messenger, 0)
 
     let updater = $state(false)
-    let simulation = $state(create_simulation_from_set(displayables.nodes_layered, displayables.links, () => {
+    let simulation = $derived(create_simulation_from_set(displayables.nodes_layered, displayables.links, () => {
                                 // console.log("ticked") 
                             
                                 updater = !updater
@@ -123,7 +123,7 @@
     />
 {/snippet}
 
-<!-- {#key test_state.value} -->
+{#key test_state.value}
 <div class="center-wrapper"   >
         <div>
             <svg class="responsive-svg" 
@@ -137,7 +137,7 @@
             </svg>
     </div>
 </div>
-<!-- {/key} -->
+{/key}
 <!-- 
 <Graph connectables={node_layered} connectable_visualizer={connectable_view} links={to_array(displayables.links)} link_visualizer={link_view} update_signal={updater}  />    -->
 

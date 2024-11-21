@@ -26,6 +26,7 @@ export function make_node(id: string): Node{
 
 
 export function get_node_pos(node: Node): Vector{
+    console.log(node)
     return make_vector(node.x ?? 0, node.y ?? 0)
 }
 

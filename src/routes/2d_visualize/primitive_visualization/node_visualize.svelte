@@ -3,12 +3,12 @@
     import { get_id, get_name, get_strongest_value, get_value_publisher, get_value_store } from "../../../helper/primtive_generics";
     import { get_x, get_y, make_vector, translate, type Vector } from "../../../physics/vector";
     import { get_base_value } from "sando-layer/Basic/Layer";
-    import { get_position, observe_position } from "../../../physics/physics_layer";
+    import { get_position, observe_physical_data, observe_position, physics_layer } from "../../../physics/physics_layer";
     import type { Reactor, StandardReactor } from "ppropogator/Shared/Reactivity/Reactor";
     import { onMount } from "svelte";
     import { reactor_to_store } from "../../../convertor/cell_to_store";
     import { pipe } from "fp-ts/lib/function";
-    import { construct_reactor_wrapper, ReactorWrapper } from "../../../convertor/reactor_to_state.svelte";
+    import { construct_reactor_wrapper, get_reactor_value, reactor_wrapper_2, ReactorWrapper } from "../../../convertor/reactor_to_state.svelte";
     import { to_string } from "generic-handler/built_in_generics/generic_conversation";
     import { observe_x } from "../../../physics/physics_layer";
 
@@ -38,26 +38,33 @@
         }
     }
     //@ts-ignore
-    let position =  new ReactorWrapper(observe_x(props.node), make_vector(5, 0))
-    let signal = new ReactorWrapper(props.update, 0)
+    let node =  new ReactorWrapper(observe_physical_data(props.node), undefined)
+  
+    
+    // let signal = new ReactorWrapper(props.update, 0)
     // let color = $derived(get_color(cell))
     let middle = $state(make_vector(0, 0))
-    let count = $state(0)
+    // let count = $state(0)
+   
 
-    function increment(){
-        count = count + 1
-    }
+    // $inspect(node_test)
 
-    position.do((pos: Vector) => {
-        console.log("position changed:", position.value)
-    })
+    let position = $derived(get_position(node.value))
+
+    node.do((pos: any) => {
+            middle = pos 
+            console.log(middle)
+        // console.log("position changed:", node.value)
+        })
     
-    $effect(() => {
-        console.log("effected")
+    $effect.pre(() => {
+        
     })
     
     onMount(() => {
         console.log("mounted")
+        
+   
     })
 
 
@@ -65,7 +72,7 @@
     let strongest_value_store : ReactorWrapper = new ReactorWrapper(get_value_publisher(props.node), "0")
 
 
-    $inspect(strongest_value_store)
+    // $inspect(strongest_value_store)
 
 </script>
 
@@ -73,7 +80,7 @@
 
 
 <text x=50 y= 50>
-    {position.value}
+    {middle.data}
 </text>
 <!-- 
 <circle

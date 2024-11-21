@@ -13,7 +13,7 @@ import { make_node } from "./physical_node";
 import { compose } from "generic-handler/built_in_generics/generic_combinator";
 import { is_string } from "generic-handler/built_in_generics/generic_predicates";
 import { get_x, make_vector, type Vector } from "./vector";
-import { construct_reactor, construct_readonly_reactor, construct_stateful_reactor, type ReadOnlyReactor, type StandardReactor, type StatefulReactor } from "ppropogator/Shared/Reactivity/Reactor";
+import { construct_reactor, construct_readonly_reactor, construct_stateful_reactor, type Reactor, type ReadOnlyReactor, type StandardReactor, type StatefulReactor } from "ppropogator/Shared/Reactivity/Reactor";
 import { map } from "ppropogator/Shared/Reactivity/Reactor";
 // TODO: a reactive object to make svelte happy
 define_generic_procedure_handler(to_string, match_args(is_node), (node: Node) => {
@@ -81,8 +81,18 @@ export function construct_reactive_node(id: string): Node{
         set y(value: number | undefined){
             inner.next({...inner.get_value(), y: value})
         },
-        vx: inner.get_value().vx,
-        vy: inner.get_value().vy,
+        get vx(): number {
+            return inner.get_value().vx
+        },
+        set vx(value: number){
+            inner.next({...inner.get_value(), vx: value})
+        },
+        get vy(): number{
+            return inner.get_value().vy
+        },
+        set vy(value: number){
+            inner.next({...inner.get_value(), vy: value})
+        }
     }
 }
 
@@ -113,14 +123,14 @@ export function construct_physical_node(base_value: any, ...values: any[]): Node
         return construct_reactive_node(values[0])
     }
 }
-
-export const observe_physical_data = compose(physics_layer.get_value, fetch_observable_from_node)
+// @ts-ignore
+export const observe_physical_data: (o:LayeredObject) =>  Reactor<Node> = compose(physics_layer.get_value, fetch_observable_from_node)
 
 // @ts-ignore
-export const observe_position = compose(observe_physical_data, map(get_node_pos))
+export const observe_position: (o: LayeredObject) => Reactor<Vector> = compose(observe_physical_data, map(get_node_pos))
 
 //@ts-ignore
-export const observe_x = compose(observe_position, map(get_x))
+export const observe_x: (o:LayeredObject) => Reactor<number> = compose(observe_position, map(get_x))
 
 
 export const make_physical = construct_layer_ui(physics_layer,
@@ -134,8 +144,7 @@ export const make_physical = construct_layer_ui(physics_layer,
 export const get_position = construct_simple_generic_procedure("get_position", 1, 
     
     (o) => {
-        console.log("unknown object", o)
-       return make_vector(0, 0)
+        throw new Error("get_position not implemented:" + o)
     })
 
 
