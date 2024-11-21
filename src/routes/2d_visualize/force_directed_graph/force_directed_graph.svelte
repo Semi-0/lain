@@ -3,9 +3,9 @@
     import { onMount } from 'svelte';
     import * as d3 from 'd3';
 
-    import type { Link, Node } from '../../../physics/types'
+    import type { Link, Node } from '../../../physics/physical_node'
     import Graph from './graph.svelte';
-    import { get_node_pos } from '../../../physics/types';
+    import { get_node_pos } from '../../../physics/physical_node';
     import { get_x, get_y, make_vector, translate } from '../../../physics/vector';
     import { pipe } from 'fp-ts/lib/function';
     // TODO: further extract force directed graph from loading data

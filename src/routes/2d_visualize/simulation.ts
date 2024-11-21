@@ -1,7 +1,7 @@
 
 import { generic_wrapper } from "generic-handler/built_in_generics/generic_wrapper";
-import type { Node, NodeViewModel, Link, LinkViewModel } from "../../physics/types";
-import { default_link_view_model, default_node_view } from "../../physics/types";
+import type { Node, NodeViewModel, Link, LinkViewModel } from "../../physics/physical_node";
+import { default_link_view_model, default_node_view } from "../../physics/physical_node";
 import * as d3 from 'd3';
 import { set_map, to_array, type BetterSet } from "generic-handler/built_in_generics/generic_better_set";
 import { compose } from "generic-handler/built_in_generics/generic_combinator";
@@ -14,11 +14,12 @@ import { match_args } from "generic-handler/Predicates";
 
 
 
-export function create_simulation(nodes: Node[], links: Link[]){
+export function create_simulation(nodes: Node[], links: Link[], on_tick: () => void){
     return d3.forceSimulation(nodes)
     .force("link", d3.forceLink(links).id((n, i, d) => nodes[i].id))
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter())
+    .on("tick", on_tick)
 }
 
 export const ensure_nodes = (s: BetterSet<LayeredObject>) => set_map(s, ensure_node) 
@@ -26,7 +27,8 @@ export const ensure_nodes = (s: BetterSet<LayeredObject>) => set_map(s, ensure_n
 export const create_simulation_from_set = generic_wrapper(create_simulation, 
                                                         (a) => a, 
                                                        compose(ensure_nodes, to_array), 
-                                                        to_array)
+                                                        to_array,
+                                                       (a) => a)
 
 
 

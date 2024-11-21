@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';
     import * as d3 from 'd3';
 
-    import { type Node, type Link, is_node } from "../../../physics/types"
+    import { type Node, type Link, is_node } from "../../../physics/physical_node"
     import type { Snippet } from 'svelte';
     import { is_layered_object, type LayeredObject } from 'sando-layer/Basic/LayeredObject';
 

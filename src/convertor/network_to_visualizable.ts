@@ -1,7 +1,7 @@
 // Convert Cell and Propagator to Node and Links
 import { cell_id, is_cell, type Cell } from "ppropogator/Cell/Cell"
 import { is_propagator, type Propagator } from "ppropogator/Propagator/Propagator"
-import { type Node, type Link, is_node, make_node } from "../physics/types"
+import { type Node, type Link, is_node, make_node } from "../physics/physical_node"
 import { make_better_set, merge_set, set_find, set_flat_map, set_get_length, set_map, set_union, type BetterSet } from "generic-handler/built_in_generics/generic_better_set"
 import { construct_better_set } from "generic-handler/built_in_generics/generic_better_set"
 import { propagator_id } from "ppropogator/Propagator/Propagator"

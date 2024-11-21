@@ -1,6 +1,6 @@
 <script lang="ts">
     import { get_position } from "../../../physics/physics_layer";
-    import { type Link } from "../../../physics/types";
+    import { type Link } from "../../../physics/physical_node";
     import { get_x, get_y } from "../../../physics/vector";
 
     interface Prop{
