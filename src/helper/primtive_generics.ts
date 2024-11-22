@@ -55,7 +55,7 @@ define_generic_procedure_handler(get_strongest_value,
 
 define_generic_procedure_handler(get_strongest_value,
     match_args(is_layered_propagator),
-    (a: any) => " "
+    (a: any) => ""
 )
 
 export const get_value_publisher = construct_simple_generic_procedure("get_value_publisher", 1, throw_error("get_value publisher", "unimplemented", "nil"))

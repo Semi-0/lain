@@ -6,7 +6,7 @@ import * as d3 from 'd3';
 import { set_map, to_array, type BetterSet } from "generic-handler/built_in_generics/generic_better_set";
 import { compose } from "generic-handler/built_in_generics/generic_combinator";
 import type { LayeredObject } from "sando-layer/Basic/LayeredObject";
-import { ensure_node } from "../../convertor/network_to_visualizable";
+import { ensure_node } from "../../convertor/network_to_visualizable.svelte";
 import { construct_simple_generic_procedure, define_generic_procedure_handler } from "generic-handler/GenericProcedure";
 import { throw_error } from "generic-handler/built_in_generics/other_generic_helper";
 import { match_args } from "generic-handler/Predicates";

@@ -18,11 +18,21 @@ export function make_vector(...args: number[]): Vector{
 }
 
 export function get_x(v: Vector){
-    return v.data[0]
+    if (v){
+         return v.data[0]
+    }
+    else{
+        return 0
+    }
 }
 
 export function get_y(v: Vector){
-    return v.data[1]
+    if (v){
+        return v.data[1]
+    }
+    else{
+        return 0
+    }
 }
 
 export const is_vector = register_predicate("is_vector", (input: any) => {

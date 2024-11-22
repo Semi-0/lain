@@ -1,32 +1,24 @@
 <script lang="ts">
-    import { is_layered_object, type LayeredObject } from "sando-layer/Basic/LayeredObject";
+    import {  type LayeredObject } from "sando-layer/Basic/LayeredObject";
     import { get_id, get_name, get_strongest_value, get_value_publisher, get_value_store } from "../../../helper/primtive_generics";
-    import { get_x, get_y, make_vector, translate, type Vector } from "../../../physics/vector";
+    import { get_x, get_y } from "../../../physics/vector";
+    import { get_position } from "../../../physics/physics_layer.svelte";
+    import {  ReactorWrapper } from "../../../convertor/reactor_to_state.svelte";
     import { get_base_value } from "sando-layer/Basic/Layer";
-    import { get_position, observe_physical_data, observe_position, physics_layer } from "../../../physics/physics_layer";
-    import type { Reactor, StandardReactor } from "ppropogator/Shared/Reactivity/Reactor";
-    import { onMount } from "svelte";
-    import { reactor_to_store } from "../../../convertor/cell_to_store";
-    import { pipe } from "fp-ts/lib/function";
-    import { construct_reactor_wrapper, get_reactor_value, reactor_wrapper_2, ReactorWrapper } from "../../../convertor/reactor_to_state.svelte";
-    import { to_string } from "generic-handler/built_in_generics/generic_conversation";
-    import { observe_x } from "../../../physics/physics_layer";
 
     interface Prop{
         node:  LayeredObject,
-        update: StandardReactor<number>
     }
 
-    
     let props: Prop = $props()
 
     let last_value_saver = $state(new Map<string, any>())
-    function get_color(o: LayeredObject | Node): string{
+    function get_color(o: LayeredObject | Node, last_value_saver: Map<string, any>): string{
         const value = get_strongest_value(o)
         const id = get_id(o) 
         const last_value = last_value_saver.get(id) 
 
-        if (value === ""){
+        if (value === " "){
             return "#99001a"
         }
         else if (value === last_value){
@@ -37,63 +29,39 @@
             return "#66ff66"
         }
     }
-    //@ts-ignore
-    let node =  new ReactorWrapper(observe_physical_data(props.node), undefined)
+
+
+    let position = $derived(get_position(props.node))
+ 
+    // @ts-ignore
+    let strongest_value_store : ReactorWrapper = new ReactorWrapper(get_value_publisher(props.node), "")
+    let color = get_color(props.node, last_value_saver)
   
     
-    // let signal = new ReactorWrapper(props.update, 0)
-    // let color = $derived(get_color(cell))
-    let middle = $state(make_vector(0, 0))
-    // let count = $state(0)
-   
-
-    // $inspect(node_test)
-
-    let position = $derived(get_position(node.value))
-
-    node.do((pos: any) => {
-            middle = pos 
-            console.log(middle)
-        // console.log("position changed:", node.value)
-        })
-    
-    $effect.pre(() => {
-        
-    })
-    
-    onMount(() => {
-        console.log("mounted")
-        
-   
-    })
-
-
-    // @ts-ignore
-    let strongest_value_store : ReactorWrapper = new ReactorWrapper(get_value_publisher(props.node), "0")
-
-
-    // $inspect(strongest_value_store)
-
 </script>
 
 
 
 
-<text x=50 y= 50>
-    {middle.data}
-</text>
-<!-- 
-<circle
-    cx={get_x(position.value) }
-    cy={get_y(position.value) }
-    r="4"
-/>  
-{/key} -->
-<!-- <text style="font-family:'Times New Roman', Times, serif" x={get_x(position.value) }
-y={get_y(position.value) - 10 } text-anchor="middle" dy=".3em"
-font-size="8px">
-    {get_name(cell)} {strongest_value_store.value}
+<!-- <text x=50 y= 50>
+    
+    {get_x(position)}
 </text> -->
+
+<circle
+    cx={get_x(position) }
+    cy={get_y(position) }
+    r="4"
+ fill={color}
+/>  
+
+<text style="font-family:'Times New Roman', Times, serif" 
+          x={get_x(position)}
+          y={get_y(position) - 10} 
+text-anchor="middle" dy=".3em"
+  font-size="8px">
+    {get_name(props.node)} {get_base_value(strongest_value_store.value)}
+</text>
 
 
 

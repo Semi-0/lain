@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { get_position } from "../../../physics/physics_layer";
+    import { get_position } from "../../../physics/physics_layer.svelte";
     import { type Link } from "../../../physics/physical_node";
     import { get_x, get_y } from "../../../physics/vector";
 

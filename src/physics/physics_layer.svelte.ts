@@ -50,7 +50,7 @@ export const physics_layer = make_annotation_layer(
 })
 
 export const has_physics_data = register_predicate("has_physics_data", (object: any) => {
-    return is_layered_object(object) && physics_layer.has_value(object)
+    return object && is_layered_object(object) && physics_layer.has_value(object)
 })
 
 export function guarantee_has_physics_data(a: LayeredObject){
@@ -60,56 +60,19 @@ export function guarantee_has_physics_data(a: LayeredObject){
 }
 
 
-const observable_store = new Map<string, StandardReactor<Node>>()
+// const observable_store = new Map<string, StandardReactor<Node>>()
 
 
-export function construct_reactive_node(id: string): Node{
-    const inner: StatefulReactor<Node> = construct_stateful_reactor(make_node(id))
-    observable_store.set(id, inner)
-    
-    return {
+export function construct_reactive_node(id: string){
+    const inner = {
         id: id,
-        get x(): number | undefined{
-            return inner.get_value().x 
-        },
-        set x(value: number | undefined){
-            inner.next({...inner.get_value(), x: value})
-        },
-        get y(): number | undefined{
-            return inner.get_value().y
-        },
-        set y(value: number | undefined){
-            inner.next({...inner.get_value(), y: value})
-        },
-        get vx(): number {
-            return inner.get_value().vx
-        },
-        set vx(value: number){
-            inner.next({...inner.get_value(), vx: value})
-        },
-        get vy(): number{
-            return inner.get_value().vy
-        },
-        set vy(value: number){
-            inner.next({...inner.get_value(), vy: value})
-        }
     }
+    
+    return inner
 }
 
 
 
-export const is_reactive_node = register_predicate("is_reactive_node", (n: Node) => {
-    return observable_store.has(n.id)
-})
-
-export function fetch_observable_from_node(n: Node): ReadOnlyReactor<Node>{
-    guard(is_reactive_node(n), throw_error("fetch_observable:", 
-        "object is not a reactive node", to_string(n)
-    ))
-
-    //@ts-ignore
-    return construct_readonly_reactor(observable_store.get(n.id))
-}
 
 export function construct_physical_node(base_value: any, ...values: any[]): Node {
     guard(values.length === 1, throw_error("construct_physical_node:", 
@@ -123,14 +86,14 @@ export function construct_physical_node(base_value: any, ...values: any[]): Node
         return construct_reactive_node(values[0])
     }
 }
-// @ts-ignore
-export const observe_physical_data: (o:LayeredObject) =>  Reactor<Node> = compose(physics_layer.get_value, fetch_observable_from_node)
+// // @ts-ignores
+// export const observe_physical_data: (o:LayeredObject) =>  Reactor<Node> = compose(physics_layer.get_value, fetch_observable_from_node)
 
-// @ts-ignore
-export const observe_position: (o: LayeredObject) => Reactor<Vector> = compose(observe_physical_data, map(get_node_pos))
+// // @ts-ignore
+// export const observe_position: (o: LayeredObject) => Reactor<Vector> = compose(observe_physical_data, map(get_node_pos))
 
-//@ts-ignore
-export const observe_x: (o:LayeredObject) => Reactor<number> = compose(observe_position, map(get_x))
+// //@ts-ignore
+// export const observe_x: (o:LayeredObject) => Reactor<number> = compose(observe_position, map(get_x))
 
 
 export const make_physical = construct_layer_ui(physics_layer,
@@ -142,15 +105,17 @@ export const make_physical = construct_layer_ui(physics_layer,
 
 
 export const get_position = construct_simple_generic_procedure("get_position", 1, 
-    
     (o) => {
+        if (o === undefined){
+            console.log("get_position: undefined")
+        }
         throw new Error("get_position not implemented:" + o)
-    })
+})
 
 
 
 define_generic_procedure_handler(get_position, match_args(is_node), get_node_pos)
 // means it is node id
-define_generic_procedure_handler(get_position, match_args(is_string), get_node_pos)
+define_generic_procedure_handler(get_position, match_args(is_string), () => make_vector(0, 0))
 
 define_generic_procedure_handler(get_position, match_args(has_physics_data), compose(physics_layer.get_value, get_position))

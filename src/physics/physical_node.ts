@@ -14,7 +14,7 @@ export interface Node {
 
 
 export const is_node = register_predicate("is_node", (input: any) => {
-    return input.id !== undefined 
+    return input !== undefined && input.id !== undefined 
 })
 
 export function make_node(id: string): Node{

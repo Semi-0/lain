@@ -2,14 +2,14 @@
 import { cell_id, is_cell, type Cell } from "ppropogator/Cell/Cell"
 import { is_propagator, type Propagator } from "ppropogator/Propagator/Propagator"
 import { type Node, type Link, is_node, make_node } from "../physics/physical_node"
-import { make_better_set, merge_set, set_find, set_flat_map, set_get_length, set_map, set_union, type BetterSet } from "generic-handler/built_in_generics/generic_better_set"
+import { make_better_set, merge_set, set_find, set_flat_map, set_get_length, set_map, set_union, to_array, type BetterSet } from "generic-handler/built_in_generics/generic_better_set"
 import { construct_better_set } from "generic-handler/built_in_generics/generic_better_set"
 import { propagator_id } from "ppropogator/Propagator/Propagator"
 import { pipe } from "fp-ts/lib/function"
 import { define_generic_procedure_handler } from "generic-handler/GenericProcedure"
 import { to_string } from "generic-handler/built_in_generics/generic_conversation"
 import { match_args } from "generic-handler/Predicates"
-import { has_physics_data, make_physical, physics_layer } from "../physics/physics_layer"
+import { has_physics_data, make_physical, physics_layer } from "../physics/physics_layer.svelte"
 import { compose } from "generic-handler/built_in_generics/generic_combinator"
 import type { LayeredObject } from "sando-layer/Basic/LayeredObject"
 import { get_base_value } from "sando-layer/Basic/Layer"
@@ -53,12 +53,12 @@ export function network_to_displayable(cells: BetterSet<Cell>, propagators: Bett
     const nodes = merge_set(set_map(cells, cell_to_connectable), set_map(propagators, propagator_to_connectable))
     const links = pipe(set_flat_map(propagators, propagator_to_links(nodes)))
 
-
-
-    return {
-        nodes_layered: nodes,
-        links: links
+    const result = {
+        nodes_layered: to_array(nodes),
+        links: to_array(links)
     }
+
+    return result
 }
 
 
