@@ -5,7 +5,7 @@
     import { operation } from "../../NetworkDefinition.ts/SimpleTest";
     import {  execute_all_tasks_sequential, steppable_run_task, summarize_scheduler_state } from "ppropogator/Shared/Reactivity/Scheduler";
     import { type LayeredObject } from "sando-layer/Basic/LayeredObject";
-    import { get_strongest_value, get_id } from "../../helper/primtive_generics";
+    import { get_strongest_base_value, get_id } from "../../helper/primtive_generics";
     import { type Link } from "../../physics/physical_node";
     import Graph from "./force_directed_graph/graph.svelte";
     import { ReactorWrapper } from "../../convertor/reactor_to_state.svelte";
@@ -45,7 +45,7 @@
 
     let last_value_saver = $state(new Map<string, any>())
     function get_color(o: LayeredObject | Node): string{
-        const value = get_strongest_value(o)
+        const value = get_strongest_base_value(o)
         const id = get_id(o) 
         const last_value = last_value_saver.get(id) 
 
@@ -63,7 +63,6 @@
 
     operation()
 </script>
-
 
 <button onclick={run_task}>Run</button>
 <button onclick={run_task_step}>Run Step</button>

@@ -59,10 +59,6 @@ export function guarantee_has_physics_data(a: LayeredObject){
     ))
 }
 
-
-// const observable_store = new Map<string, StandardReactor<Node>>()
-
-
 export function construct_reactive_node(id: string){
     const inner = {
         id: id,
@@ -71,16 +67,13 @@ export function construct_reactive_node(id: string){
     return inner
 }
 
-
-
-
-export function construct_physical_node(base_value: any, ...values: any[]): Node {
+export function construct_physical_node(base_value: any, ...values: any[]): any {
     guard(values.length === 1, throw_error("construct_physical_node:", 
         "try to set type layer with more than one type",
          to_string(values)
     ))
     if (is_node(values[0])){
-        return  construct_reactive_node(values[0].id)
+        return construct_reactive_node(values[0].id)
     }
     else{
         return construct_reactive_node(values[0])

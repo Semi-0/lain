@@ -45,15 +45,15 @@ define_generic_procedure_handler(get_id,
     compose(get_base_value, propagator_id))
 
 
-export const get_strongest_value = construct_simple_generic_procedure("get_strongest_value", 1,
+export const get_strongest_base_value = construct_simple_generic_procedure("get_strongest_value", 1,
     (a: any) => { throw new Error("get_strongest_value not implemented:" + a)})
 
-define_generic_procedure_handler(get_strongest_value,
+define_generic_procedure_handler(get_strongest_base_value,
     match_args(is_layered_cell),
     compose(get_base_value, cell_strongest_value, get_base_value)
 )
 
-define_generic_procedure_handler(get_strongest_value,
+define_generic_procedure_handler(get_strongest_base_value,
     match_args(is_layered_propagator),
     (a: any) => ""
 )
